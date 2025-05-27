@@ -351,7 +351,10 @@ class Downloader:
         if self.download_mode is DownloadTypeEnum.track and not self.global_settings['formatting']['force_album_format']:  # Python 3.10 can't become popular sooner, ugh
             track_location_name = self.path + self.global_settings['formatting']['single_full_path_format'].format(**track_tags)
         elif track_info.tags.total_tracks == 1 and not self.global_settings['formatting']['force_album_format']:
+            main_artist_sanitized = sanitise_name(main_artist)
+            track_tags['main_artist'] = main_artist_sanitized
             track_location_name = album_location + self.global_settings['formatting']['single_full_path_format'].format(**track_tags)
+
         else:
             if track_info.tags.total_discs and track_info.tags.total_discs > 1: album_location += f'CD {track_info.tags.disc_number!s}/'
             track_location_name = album_location + self.global_settings['formatting']['track_filename_format'].format(**track_tags)
